@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"context"
-
 	"gorm.io/gorm"
 )
 
@@ -13,7 +11,7 @@ type Post struct {
 	Categories []*Category `json:"cats" gorm:"many2many:post_categories;"`
 }
 
-func (s *store) CreatePost(ctx context.Context, title, text string, categories []string) error {
+func (s *store) CreatePost(title, text string, categories []string) error {
 	var cats []*Category
 	for _, item := range categories {
 		var findCat Category
@@ -26,7 +24,7 @@ func (s *store) CreatePost(ctx context.Context, title, text string, categories [
 		}
 	}
 
-	err := s.db.WithContext(ctx).Create(&Post{
+	err := s.db.Create(&Post{
 		Title:      title,
 		Text:       text,
 		Categories: cats,
@@ -38,7 +36,7 @@ func (s *store) CreatePost(ctx context.Context, title, text string, categories [
 	return nil
 }
 
-func (s *store) GetAllPosts(ctx context.Context) ([]Post, error) {
+func (s *store) GetAllPosts() ([]Post, error) {
 	var posts []Post
 
 	err := s.db.Preload("Categories").Find(&posts).Error
@@ -49,7 +47,7 @@ func (s *store) GetAllPosts(ctx context.Context) ([]Post, error) {
 	return posts, nil
 }
 
-func (s *store) GetPagePosts(ctx context.Context, pageNumber, pageSize int) ([]Post, error) {
+func (s *store) GetPagePosts(pageNumber, pageSize int) ([]Post, error) {
 	var posts []Post
 	err := s.db.Order("updated_at desc").Offset((pageNumber - 1) * pageSize).Limit(pageSize).Find(&posts).Error
 	if err != nil {
@@ -59,7 +57,7 @@ func (s *store) GetPagePosts(ctx context.Context, pageNumber, pageSize int) ([]P
 	return posts, nil
 }
 
-func (s *store) UpdatePost(ctx context.Context, postID int, title, text string, categories []string) error {
+func (s *store) UpdatePost(postID int, title, text string, categories []string) error {
 	var postToUpdate Post
 	err := s.db.Preload("Categories").Where("id = ?", postID).First(&postToUpdate).Error
 	if err != nil {
@@ -90,7 +88,7 @@ func (s *store) UpdatePost(ctx context.Context, postID int, title, text string, 
 	return nil
 }
 
-func (s *store) DeletePost(ctx context.Context, postID int) error {
+func (s *store) DeletePost(postID int) error {
 	var post Post
 	err := s.db.First(&post, postID).Error
 	if err != nil {

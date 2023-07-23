@@ -1,23 +1,21 @@
 package repository
 
 import (
-	"context"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 type Store interface {
-	CreatePost(ctx context.Context, title, text string, categories []string) error
-	GetAllPosts(ctx context.Context) ([]Post, error)
-	GetPagePosts(ctx context.Context, pageNumber, pageSize int) ([]Post, error)
-	UpdatePost(ctx context.Context, postID int, title, text string, categories []string) error
-	DeletePost(ctx context.Context, postID int) error
+	CreatePost(title, text string, categories []string) error
+	GetAllPosts() ([]Post, error)
+	GetPagePosts(pageNumber, pageSize int) ([]Post, error)
+	UpdatePost(postID int, title, text string, categories []string) error
+	DeletePost(postID int) error
 
-	CreateCategory(ctx context.Context, name string) error
-	GetAllCategories(ctx context.Context) ([]Category, error)
-	UpdateCategory(ctx context.Context, categoryID int, name string) error
-	DeleteCategory(ctx context.Context, categoryID int) error
+	CreateCategory(name string) error
+	GetAllCategories() ([]Category, error)
+	UpdateCategory(categoryID int, name string) error
+	DeleteCategory(categoryID int) error
 }
 
 type store struct {

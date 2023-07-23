@@ -2,20 +2,19 @@ package service
 
 import (
 	"blog-service/internal/repository"
-	"context"
 )
 
 type App interface {
-	CreatePost(ctx context.Context, title, text string, categories []string) error
-	GetAllPosts(ctx context.Context) ([]repository.Post, error)
-	GetPagePosts(ctx context.Context, pageNumber, pageSize int) ([]repository.Post, error)
-	UpdatePost(ctx context.Context, postID int, title, text string, categories []string) error
-	DeletePost(ctx context.Context, postID int) error
+	CreatePost(title, text string, categories []string) error
+	GetAllPosts() ([]repository.Post, error)
+	GetPagePosts(pageNumber, pageSize int) ([]repository.Post, error)
+	UpdatePost(postID int, title, text string, categories []string) error
+	DeletePost(postID int) error
 
-	CreateCategory(ctx context.Context, name string) error
-	GetAllCategories(ctx context.Context) ([]repository.Category, error)
-	UpdateCategory(ctx context.Context, categoryID int, name string) error
-	DeleteCategory(ctx context.Context, categoryID int) error
+	CreateCategory(name string) error
+	GetAllCategories() ([]repository.Category, error)
+	UpdateCategory(categoryID int, name string) error
+	DeleteCategory(categoryID int) error
 }
 
 type app struct {

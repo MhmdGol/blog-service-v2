@@ -1,17 +1,15 @@
 package service
 
-import "context"
-
 type Category struct {
 	Name string
 }
 
-func (a *app) CreateCategory(ctx context.Context, name string) error {
-	return a.store.CreateCategory(ctx, name)
+func (a *app) CreateCategory(name string) error {
+	return a.store.CreateCategory(name)
 }
 
-func (a *app) GetAllCategories(ctx context.Context) ([]Category, error) {
-	categoryRows, err := a.store.GetAllCategories(ctx)
+func (a *app) GetAllCategories() ([]Category, error) {
+	categoryRows, err := a.store.GetAllCategories()
 	if err != nil {
 		return nil, err
 	}
@@ -26,10 +24,10 @@ func (a *app) GetAllCategories(ctx context.Context) ([]Category, error) {
 	return categories, nil
 }
 
-func (a *app) UpdateCategory(ctx context.Context, categoryID int, name string) error {
-	return a.store.UpdateCategory(ctx, categoryID, name)
+func (a *app) UpdateCategory(categoryID int, name string) error {
+	return a.store.UpdateCategory(categoryID, name)
 }
 
-func (a *app) DeleteCategory(ctx context.Context, categoryID int) error {
-	return a.store.DeleteCategory(ctx, categoryID)
+func (a *app) DeleteCategory(categoryID int) error {
+	return a.store.DeleteCategory(categoryID)
 }

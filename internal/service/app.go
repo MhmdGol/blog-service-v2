@@ -6,13 +6,13 @@ import (
 
 type App interface {
 	CreatePost(title, text string, categories []string) error
-	GetAllPosts() ([]repository.Post, error)
-	GetPagePosts(pageNumber, pageSize int) ([]repository.Post, error)
+	GetAllPosts() ([]Post, error)
+	GetPagePosts(pageNumber, pageSize int) ([]Post, error)
 	UpdatePost(postID int, title, text string, categories []string) error
 	DeletePost(postID int) error
 
 	CreateCategory(name string) error
-	GetAllCategories() ([]repository.Category, error)
+	GetAllCategories() ([]Category, error)
 	UpdateCategory(categoryID int, name string) error
 	DeleteCategory(categoryID int) error
 }
